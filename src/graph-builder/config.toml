@@ -1,0 +1,49 @@
+[llm]
+# Local Ollama model running on the DGX Spark. Change model to the value from `ollama list`.
+provider = "ollama"
+model = "qwen3.6:27b"
+api_key = ""
+base_url = "http://localhost:11434"
+max_tokens = 1536
+temperature = 0.1
+structured_output = true
+think = false
+
+[documents]
+# Input folders can contain .pdf, .txt, or .md files. PDFs are converted to text
+# in <output>/<experiment_name>_text_inputs before graph extraction.
+convert_pdfs = true
+
+[domain]
+name = "sdg6_policy_alignment"
+sdg_focus = "sdg 6"
+
+[embedding]
+model = "all-MiniLM-L6-v2"
+device = "auto"
+
+[processing]
+# Keep this low for local Ollama inference unless you know the model can handle concurrency.
+max_workers = 1
+
+[extraction]
+# Limits each chunk to the strongest policy-alignment relationships.
+# Set to 0 for exhaustive extraction.
+max_triples_per_chunk = 25
+
+[chunking]
+chunk_size = 1200  # Number of words per chunk
+overlap = 50       # Number of overlapping words between chunks
+
+[standardization]
+enabled = true
+use_llm_for_entities = true
+
+[inference]
+# Relationship inference is enabled for higher-quality graph connections.
+enabled = true
+use_llm_for_inference = true
+apply_transitive = true
+
+[visualization]
+edge_smooth = "dynamic"

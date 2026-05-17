@@ -1,0 +1,13 @@
+networkx>=3.4.2
+numpy>=2.0.0
+openai>=1.87.0
+pandas>=2.3.0
+PyPDF2>=3.0.1
+pyvis>=0.3.2
+python-louvain>=0.16
+requests>=2.32.3
+sentence-transformers>=3.0.0
+tomli>=2.2.1
+torch>=2.0.0
+tqdm>=4.67.1
+neo4j>=5.0.0

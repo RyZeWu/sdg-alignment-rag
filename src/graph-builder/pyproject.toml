@@ -1,0 +1,36 @@
+[project]
+name = "ai-knowledge-graph"
+version = "0.6.0"
+description = "Takes a text document and generates an interactive knowledge graph"
+authors = [{ name = "Anonymous", email = "anon@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "networkx>=3.4.2",
+    "numpy>=2.0.0",
+    "openai>=1.87.0",
+    "pandas>=2.3.0",
+    "PyPDF2>=3.0.1",
+    "pyvis>=0.3.2",
+    "python-louvain>=0.16",
+    "requests>=2.32.3",
+    "sentence-transformers>=3.0.0",
+    "tomli>=2.2.1",
+    "torch>=2.0.0",
+    "tqdm>=4.67.1",
+    "neo4j>=5.0.0",
+]
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+generate-graph = "src.knowledge_graph_builder.main:cli"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.ruff]
+line-length = 88  # Set the maximum line length
+select = ["E", "F", "W"]  # Enable specific linting rules
+ignore = []  # Add rules to ignore if needed
