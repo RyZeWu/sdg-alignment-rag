@@ -33,3 +33,11 @@ python -m src.knowledge_graph_builder.main \
 ```
 
 The active graph-builder settings live in `src/graph-builder/config.toml`.
+
+## Attribution
+
+This project is adapted from the original eGOT project by Nihar Sanda, Benjamin M. Gyori, Vito Quaranta, Auroop Ganguly, and Ayan Paul.
+
+Original repository: https://github.com/NNeuralDynamics/eGOT
+
+The current version modifies eGOT for SDG policy-alignment knowledge graph construction and retrieval.
