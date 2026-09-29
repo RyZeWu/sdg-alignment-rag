@@ -8,12 +8,12 @@ import csv
 from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 
-from src.QA_integration import (
+from .QA_integration import (
     get_llm, get_neo4j_retriever, create_document_retriever_chain,
     retrieve_documents, format_documents, get_rag_chain, EMBEDDING_FUNCTION
 )
-from src.metrics.evaluation import RAGEvaluator
-from src.constants import FORMAT_ANSWER_PROMPT
+from .metrics.evaluation import RAGEvaluator
+from .constants import FORMAT_ANSWER_PROMPT
 
 # Prompts for Graph of Thoughts
 THOUGHT_GENERATION_PROMPT = """

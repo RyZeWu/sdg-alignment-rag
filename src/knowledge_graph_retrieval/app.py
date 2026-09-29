@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError
 from typing import Optional, List, Dict, Any
-from src.QA_integration import QA_RAG
+from .QA_integration import QA_RAG
 from langchain_neo4j import Neo4jGraph
 import logging
 from dotenv import load_dotenv
