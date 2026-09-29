@@ -28,9 +28,9 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_openai import ChatOpenAI
 
 # Local imports
-from src.constants import *
+from .constants import *
 # Assuming the user's provided RAGEvaluator is in this file
-from src.metrics.evaluation import RAGEvaluator 
+from .metrics.evaluation import RAGEvaluator
 load_dotenv() 
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -614,7 +614,7 @@ def QA_RAG(graph,model, question, document_names, session_id, mode, write_access
     chat_mode_settings["evaluation"] = evaluation
 
     if mode == CHAT_GRAPH_OF_THOUGHT_MODE:
-        from src.got import graph_of_thought_qa
+        from .got import graph_of_thought_qa
 
         result = graph_of_thought_qa(
             graph=graph,

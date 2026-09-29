@@ -21,10 +21,13 @@ The old benchmark datasets and evaluation scripts have been removed so this repo
 
 ## Build The Graph
 
-From `src/graph-builder`:
+With Python 3.12, from the repository root (macOS/Linux):
 
 ```bash
-source /home/ryzewu/projects/SDG/eGOT/.venv/bin/activate
+cd src/graph-builder
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
 python -m src.knowledge_graph_builder.main \
   --input data/sdg6_pdfs \
   --output outputs/sdg6 \
@@ -33,6 +36,59 @@ python -m src.knowledge_graph_builder.main \
 ```
 
 The active graph-builder settings live in `src/graph-builder/config.toml`.
+
+## Run The Retrieval Service
+
+Use a separate Python 3.12 environment for retrieval. From a clean clone:
+
+```bash
+git clone https://github.com/RyZeWu/sdg-alignment-rag.git
+cd sdg-alignment-rag
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r src/knowledge_graph_retrieval/requirements.txt
+```
+
+On Windows PowerShell, use `py -3.12 -m venv .venv` and
+`.\.venv\Scripts\Activate.ps1` instead of the environment commands above.
+The graph-builder retains its own requirements and environment.
+For CPU-only Linux or Windows, you can install the CPU PyTorch build before
+installing the retrieval requirements:
+
+```bash
+python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+```
+
+Create a `.env` file in the repository root with your connection settings:
+
+```dotenv
+OPENAI_API_KEY=your-api-key
+# Optional: an OpenAI-compatible API endpoint
+# OPENAI_BASE_URL=https://api.openai.com/v1
+NEO4J_URI=bolt://localhost:7687
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=your-password
+NEO4J_DATABASE=neo4j
+```
+
+With the retrieval environment active, run from the repository root:
+
+```bash
+python -m uvicorn src.knowledge_graph_retrieval.app:app --host 127.0.0.1 --port 8000
+```
+
+Open http://127.0.0.1:8000/docs for the API form, or
+http://127.0.0.1:8000/ for the health response. Startup loads
+`sentence-transformers/all-MiniLM-L6-v2`; the first run needs internet access
+to download that model. Chat requests require a reachable Neo4j instance with
+the graph, a 384-dimensional `vector` index, and a `keyword` full-text index
+configured for `Chunk` nodes (see `src/knowledge_graph_retrieval/constants.py`),
+plus working LLM credentials. Installing dependencies does not create or populate these indexes.
+
+The retrieval manifest pins direct dependencies, including the compatible
+LangChain 0.3 APIs used by this code. Ragas is required even when evaluation is
+disabled because the evaluator is imported at startup. Transitive dependencies
+are resolved by pip; this small manifest is not a full environment lockfile.
 
 ## Attribution
 
